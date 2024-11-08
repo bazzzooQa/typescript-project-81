@@ -15,3 +15,6 @@ test:
 
 lint:
 	npm run lint
+	
+exec:
+	npm run exec
