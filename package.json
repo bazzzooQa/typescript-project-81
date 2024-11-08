@@ -48,6 +48,6 @@
     "vitest": "^0.34.6"
   },
   "simple-git-hooks": {
-    "pre-push": "yarn run lint"
+    "pre-push": "npm run lint"
   }
 }
