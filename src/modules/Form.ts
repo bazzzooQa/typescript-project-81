@@ -28,9 +28,16 @@ class Form {
 
         if (!Object.keys(this.template).includes(field)) {
             this.error = new Error(`Field ${field} does not exist in the template.`);
+        } else {
+            this.form.children = [
+                new Tag('label', { for: field }, field.at(0)?.toUpperCase() + field.substring(1)),
+                new Tag(tagName, { name: field, type: 'text', ...options }, this.template[field]),
+            ];
         }
+    }
 
-        this.form.children = new Tag(tagName, { name: field, type: 'text', ...options }, this.template[field]);
+    submit(value: string = 'Save') {
+        this.form.children = [new Tag('input', { type: 'submit', value })];
     }
 }
 

@@ -16,13 +16,14 @@ class Tag {
         this.value = value;
     }
 
-    set children(value: Tag) {
-        this.value = value;
+    set children(value: Tag[]) {
+        this.value = (this.value || '') + value.join('');
     };
 
     toString(): string {
         const attributes: string = this.attributes && Object.keys(this.attributes).length > 0
             ? ' ' + Object.entries(this.attributes)
+                .filter(([, value]) => value)
                 .map(([ key, value ]) => `${key}="${value}"`)
                 .join(' ')
             : '';

@@ -15,7 +15,7 @@ test('form for template with input', () => {
     expect(Form.formFor(template, {}, (f) => {
         f.input('name');
         f.input('job', { as: 'textarea', rows: 50, cols: 50 });
-    })).toBe('<form action="#" method="post"><textarea name="job" type="text" as="textarea" rows="50" cols="50">hexlet</textarea></form>')
+    })).toBe('<form action="#" method="post"><label for="name">Name</label><input name="name" type="text"/><label for="job">Job</label><textarea name="job" type="text" as="textarea" rows="50" cols="50">hexlet</textarea></form>')
 });
 
 test('form with wrong input', () => {
