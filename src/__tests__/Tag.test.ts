@@ -22,5 +22,5 @@ test('create unsupported tag', () => {
 test('create single tag', () => {
     const testTag = new Tag('img');
 
-    expect(testTag.toString()).toBe('<img/>');
+    expect(testTag.toString()).toBe('<img>');
 });
