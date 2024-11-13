@@ -11,7 +11,7 @@ class Form {
 
        callback(this);
 
-       if (this.error) return this.error.message;
+       if (this.error) return this.handleError;
 
        return this.form.toString();
     };
@@ -53,6 +53,10 @@ class Form {
 
     submit(value: string = 'Save') {
         this.form.children = [new Tag('input', { type: 'submit', value })];
+    }
+
+    handleError() {
+        if (this.error) throw new Error(this.error.message);
     }
 }
 
