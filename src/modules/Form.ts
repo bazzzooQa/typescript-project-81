@@ -11,24 +11,42 @@ class Form {
 
        callback(this);
 
-       if (this.error) {
-        return this.error.message;
-       }
+       if (this.error) throw new Error(this.error.message);
 
        return this.form.toString();
     };
 
     input(field: string, options: Record<string, string | number> = {}) {
-        // option 'as'
         const { as, ...rest } = options;
         const tagName = as && typeof as === 'string' ? as : 'input';
 
         if (!Object.keys(this.template).includes(field)) {
             this.error = new Error(`Field ${field} does not exist in the template.`);
         } else {
+            const getOptions = () => {
+                const value = this.template[field];
+
+                if (as === 'textarea') {
+                    return {
+                        cols: "20",
+                        rows: "40",
+                        name: field,
+                        value,
+                        ...rest,
+                    }
+                }
+
+                return {
+                    name: field,
+                    type: 'text',
+                    value,
+                    ...rest,
+                };
+            };
+
             this.form.children = [
                 new Tag('label', { for: field }, field.at(0)?.toUpperCase() + field.substring(1)),
-                new Tag(tagName, { name: field, type: 'text', value: this.template[field], ...rest }),
+                new Tag(tagName, getOptions()),
             ];
         }
     }
