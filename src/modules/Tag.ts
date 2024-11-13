@@ -4,7 +4,7 @@ type attributesT = {
 
 class Tag {
     protected readonly singleTags = ['img', 'input', 'br'];
-    protected readonly blockTags = ['label', 'div'];
+    protected readonly blockTags = ['label', 'div', 'form'];
 
     protected tagName!: string;
     protected attributes?: object;
