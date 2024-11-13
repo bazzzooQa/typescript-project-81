@@ -4,7 +4,7 @@ type attributesT = {
 
 class Tag {
     protected readonly singleTags = ['img', 'input', 'br'];
-    protected readonly blockTags = ['label', 'div', 'form'];
+    protected readonly blockTags = ['label', 'div', 'form', 'textarea'];
 
     protected tagName!: string;
     protected attributes?: object;
@@ -15,6 +15,10 @@ class Tag {
         this.attributes = attributes;
         this.value = value;
     }
+
+    set children(value: Tag) {
+        this.value = value;
+    };
 
     toString(): string {
         const attributes: string = this.attributes && Object.keys(this.attributes).length > 0
