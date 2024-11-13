@@ -1,0 +1,37 @@
+#
+
+name: build-form-app,
+on:
+    push:
+      branches:
+        - '**'
+      tags:
+        - '**'
+jobs:
+    build-test-lint:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                node-version: '22.x'
+                cache: 'npm'
+            - run: make install
+            - run: make lint
+            - run: make exec
+            - uses: hexlet-components/hello-from-hexlet-action@release
+            - name: Test & publish code coverage
+              # Publish code coverage on Code Climate
+              # https://github.com/paambaati/codeclimate-action
+              uses: paambaati/codeclimate-action@v9
+              # Add Code Climate secret key
+              env:
+                CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+              with:
+                coverageCommand: make test-coverage
+                debug: true
+                coverageLocations: "${{github.workspace}}/coverage/clover.xml:clover"
+                
+
+
+
