@@ -6,7 +6,7 @@ class Form {
     private error: Error | null = null;
 
     formFor(template: Record<string, string>, options: { url?: string }, callback: (f: Form) => void) {
-       this.form = new Tag('form', {action: options.url || "#", method: "post"});
+       this.form = new Tag('form', {method: "post", action: options.url || "#", });
        this.template = template;
 
        callback(this);
@@ -18,20 +18,17 @@ class Form {
        return this.form.toString();
     };
 
-    input(field: string, options?: Record<string, string | number>) {
+    input(field: string, options: Record<string, string | number> = {}) {
         // option 'as'
-        const tagName = options
-            && options.as
-            && typeof options.as === 'string'
-                ? options.as
-                : 'input';
+        const { as, ...rest } = options;
+        const tagName = as && typeof as === 'string' ? as : 'input';
 
         if (!Object.keys(this.template).includes(field)) {
             this.error = new Error(`Field ${field} does not exist in the template.`);
         } else {
             this.form.children = [
                 new Tag('label', { for: field }, field.at(0)?.toUpperCase() + field.substring(1)),
-                new Tag(tagName, { name: field, type: 'text', ...options }, this.template[field]),
+                new Tag(tagName, { name: field, type: 'text', value: this.template[field], ...rest }),
             ];
         }
     }

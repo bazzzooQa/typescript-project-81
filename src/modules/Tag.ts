@@ -1,5 +1,6 @@
 type attributesT = {
     [key: string | number | symbol]: unknown;
+    value?: string;
 }
 
 class Tag {
@@ -7,7 +8,7 @@ class Tag {
     protected readonly blockTags = ['label', 'div', 'form', 'textarea'];
 
     protected tagName!: string;
-    protected attributes?: object;
+    protected attributes?: attributesT;
     protected value?: unknown;
 
     constructor(tagName: string, attributes?: attributesT, value?: unknown) {
@@ -21,19 +22,25 @@ class Tag {
     };
 
     toString(): string {
-        const attributes: string = this.attributes && Object.keys(this.attributes).length > 0
-            ? ' ' + Object.entries(this.attributes)
-                .filter(([, value]) => value)
-                .map(([ key, value ]) => `${key}="${value}"`)
-                .join(' ')
-            : '';
+        const getAttributesStr = (filterFn: (pair: [string, unknown]) => boolean): string => {
+            return this.attributes && Object.keys(this.attributes).length > 0
+                ? ' ' + Object.entries(this.attributes)
+                    .filter(filterFn)
+                    .map(([ key, value ]) => `${key}="${value}"`)
+                    .join(' ')
+                : '';
+        };
 
         if (this.singleTags.includes(this.tagName)) {
-            return `<${this.tagName}${attributes}/>`;
+            const attributesFilter = (pair: [string, unknown]) => Boolean(pair[1]);
+
+            return `<${this.tagName}${getAttributesStr(attributesFilter)}>`;
         }
 
         if (this.blockTags.includes(this.tagName)) {
-            return `<${this.tagName}${attributes}>${this.value || ''}</${this.tagName}>`;
+            const attributesFilter = (pair: [string, unknown]) => (pair[0] !== 'value' && Boolean(pair[1]));
+
+            return `<${this.tagName}${getAttributesStr(attributesFilter)}>${this.attributes?.value || this.value || ''}</${this.tagName}>`;
         }
 
         return `Unsupported tag - ${this.tagName}`;
