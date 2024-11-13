@@ -22,5 +22,5 @@ test('form with wrong input', () => {
     expect(Form.formFor(template, {}, (f) => {
         f.input('name');
         f.input('age', { as: 'textarea', rows: 50, cols: 50 });
-    })).toThrow();
+    })).toBe('Field age does not exist in the template.');
 });

@@ -3,7 +3,7 @@ import Tag from "./Tag";
 class Form {
     private form: Tag = new Tag('form');
     private template: Record<string, string> = {};
-    private error: Error | null = null;
+    public error: Error | null = null;
 
     formFor(template: Record<string, string>, options: { url?: string }, callback: (f: Form) => void) {
        this.form = new Tag('form', {method: "post", action: options.url || "#", });
@@ -11,7 +11,7 @@ class Form {
 
        callback(this);
 
-       if (this.error) throw new Error(this.error.message);
+       if (this.error) return this.error.message;
 
        return this.form.toString();
     };
