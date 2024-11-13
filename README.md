@@ -12,5 +12,6 @@ const template = { name: 'rob', job: 'hexlet', gender: 'm' };
 Form.formFor(template, {}, (f) => {
     f.input('name');
     f.input('job', { as: 'textarea', rows: 50, cols: 50 });
+    f.submit();
 });
 ```
