@@ -11,7 +11,7 @@ class Form {
 
        callback(this);
 
-       if (this.error) return this.handleError;
+    //    if (this.error) throw new Error();
 
        return this.form.toString();
     };
@@ -21,7 +21,7 @@ class Form {
         const tagName = as && typeof as === 'string' ? as : 'input';
 
         if (!Object.keys(this.template).includes(field)) {
-            this.error = new Error(`Field ${field} does not exist in the template.`);
+            throw new Error(`Field ${field} does not exist in the template.`);
         } else {
             const getOptions = () => {
                 const value = this.template[field];
